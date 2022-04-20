@@ -21,3 +21,8 @@
 /react-client/npm-debug.log*
 /react-client/yarn-debug.log*
 /react-client/yarn-error.log*
+
+
+/api/vendor/
+/api/build/
+/api/config/databaseConfig.json
