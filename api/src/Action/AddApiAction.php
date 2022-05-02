@@ -32,8 +32,6 @@ final class AddApiAction
                 ->withStatus(400);
         }
         
-
-        // Build the HTTP response
         $response->getBody()->write((string)json_encode($result,JSON_UNESCAPED_SLASHES));
         return $response
             ->withHeader('Content-Type', 'application/json')
