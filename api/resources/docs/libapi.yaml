@@ -1,11 +1,8 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
-  title: Base-Slim-Skeleton
-  description: Structure de base d'un api créé dans le cadre du cours Services Web H2022
-  
-servers: 
-  - url: http://localhost/base-slim-skeleton
+  version: '1.0'
+  title: apiapi
+  description: Api that gets apis
 paths:
   /:
     get:
@@ -14,7 +11,7 @@ paths:
       summary: Message de bienvenue
       responses:
         '200': 
-          description: 
+          description: ""
           content:
             application/json:
               schema:
@@ -27,36 +24,39 @@ paths:
                 example:
                     success: true
                     message : 'Hello world!'
-  
-  /users:
+  /apis:
+    get:
+      tags:
+        - Apis
+      summary: Retourne toutes les apis
+      responses:
+        '200' :
+          description: Toutes les apis existantes
     post:
       tags: 
-        - Usagers
-      summary: Création d'un usager.
+        - Apis
+      summary: Création d'un api.
       requestBody:
-        description: Les informations de l'usager à créer
+        description: Les informations de l'api à créer
         required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                username:
+                name:
                   type: string
-                first_name:
+                url:
                   type: string
-                last_name:
-                  type: string
-                email:
+                description:
                   type: string
               example:
-                username : 'mathF'
-                first_name: 'Mathieu'
-                last_name: 'Fréchette'
-                email: 'frechette.mathieu@cegepvicto.ca'
+                name : 'TheApiApi'
+                url: 'https://theapi.api/apis'
+                description: 'Api that gives apis'
       responses:
         '201': 
-          description: Le id de l'usager créé
+          description: "L'id de l'api créé"
           content:
             application/json:
               schema:
@@ -66,4 +66,92 @@ paths:
                     type: integer
                 example:
                   id : 1
-  
+        '400': 
+          description: "Des informations sont manquantes"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  url:
+                    type: string
+                  description:
+                    type: string
+                example:
+                  description : "Description is required"
+  /apis/{ID}:
+    delete:
+      parameters:
+        - in: path
+          name: ID
+          schema:
+            type: integer
+          required: true
+          description: ID de l'api à supprimer
+      tags: 
+        - Apis
+      summary: Supression d'un api
+      responses:
+        '204':
+          description: L'api à été supprimée
+        '401': 
+          description: "Les information de connection sont invalides"
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                   User was not authentified: "Invalid user credentials"
+        '404': 
+          description: "L'id est invalide"
+    put:
+      parameters:
+        - in: path
+          name: ID
+          schema:
+            type: integer
+          required: true
+          description: ID de l'api à modifier
+      requestBody:
+        description: Les informations de l'api à créer
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+                description:
+                  type: string
+              example:
+                name : 'TheApiApi'
+                url: 'https://theapi.api/apis'
+                description: 'Api that gives apis'
+      tags: 
+        - Apis
+      summary: Modification d'un api
+      responses:
+        '204':
+          description: L'api à été modifiée
+        '400': 
+          description: "Des informations sont manquantes ou l'id est invalide"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  url:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+                example:
+                  description : "Description is required"
